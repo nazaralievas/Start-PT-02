@@ -73,7 +73,7 @@ class Person:
 # класс Taxist будет наследоваться от Person, что мы и укажем в скобках:
 class Taxist(Person):
     def __init__(self, id, name, car_model, car_number, phone_number):
-        super().__init__(self, id, name, phone_number) # указываем какие атрибуты мы наследуем у родителя
+        super().__init__(id, name, phone_number) # указываем какие атрибуты мы наследуем у родителя
         self.car_model = car_model
         self.car_number = car_number
         
@@ -84,7 +84,7 @@ class Taxist(Person):
 # класс Client тоже наследуется от класса Person и наследует все свои атрибуты:
 class Client(Person):
     def __init__(self, id, name, phone_number):
-        super().__init__(self, id, name, phone_number)
+        super().__init__(id, name, phone_number)
 
     # напишем метод __str__ для отображения инфы о клиенте в виде красивой строки
     def __str__(self):
@@ -122,8 +122,8 @@ class Poezdka:
 
 # создадим 3 поездки
 poezdka_1 = Poezdka(1, 'BishkekPark - AP Manas', '14:09', 900, client_1, taxist_1)
-poezdka_2 = Poezdka(1, 'Codify - Park Panfilova', '17:54', 290, client_1, taxist_1)
-poezdka_3 = Poezdka(1, 'TSUM - Ala-Too', '14:09', 150, client_1, taxist_1)
+poezdka_2 = Poezdka(2, 'Codify - Park Panfilova', '17:54', 290, client_1, taxist_1)
+poezdka_3 = Poezdka(3, 'TSUM - Ala-Too', '14:09', 150, client_1, taxist_1)
 
 # посмотрим, работает ли наш счётчик:
 print(Poezdka.count) # 3
