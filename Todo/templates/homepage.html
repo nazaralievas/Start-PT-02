@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Добавьте заметку</h1>
+
+    <table>
+        <tr>
+            <th>Задачи</th>
+            <th>Добавлено</th>
+            <th>Действия</th>
+        </tr>
+        <tr>
+            <td>Покормить кота</td>
+            <td>29.06.2025</td>
+            <td>Изменить\Удалить</td>
+        </tr>
+        <tr>
+            <td>Полить цветы</td>
+            <td>29.06.2025</td>
+            <td>Изменить\Удалить</td>
+        </tr>
+    </table>
+
+    <form action="">
+        <input type="text" name="text" placeholder="Введите заметку...">
+        <input type="submit" value="Добавить">
+    </form>
+
+{% endblock content %}
