@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 app = Flask(__name__)
@@ -17,7 +17,33 @@ with app.app_context():
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
-    return render_template('homepage.html')
+    tasks = Todo.query.all()
+    if request.method == "POST":
+        text = request.form['text']
+        task = Todo(task=text)
+        db.session.add(task)
+        db.session.commit()
+        return redirect('/')
+    return render_template('homepage.html', tasks=tasks)
+
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    task = Todo.query.get(id)
+    db.session.delete(task)
+    db.session.commit()
+    return redirect('/')
+
+
+@app.route('/update/<int:id>', methods=["GET", "POST"])
+def update(id):
+    task = Todo.query.get(id)
+    if request.method == 'POST':
+        task.task = request.form['text']
+        db.session.commit()
+        return redirect('/')
+    return render_template('update.html', task=task)
+
 
 
 @app.route('/about')
