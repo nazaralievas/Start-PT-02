@@ -1,0 +1,11 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<ul>
+    <li>Назавание фильма: {{ movie.name }}</li>
+    <li>Жанр: {{ movie.genre }}</li>
+    <li>Описание фильма: {{ movie.description }}</li>
+    <img src="{{ movie.poster }}">
+</ul>
+
+{% endblock content %}
