@@ -8,4 +8,20 @@
     <img src="{{ movie.poster }}">
 </ul>
 
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Отправить">
+</form>
+
+{% if movie.comments.all|length < 1 %}
+    <h4>Комментариев пока нет. Будьте первым!</h4>
+{% else %}
+    {% for comment in movie.comments.all %}
+        <ul>
+            <li>{{ comment.name }} : {{ comment.text }} <small>{{ comment.date_created }}</small></li>
+        </ul>
+    {% endfor %}
+{% endif %}
+
 {% endblock content %}

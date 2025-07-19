@@ -13,3 +13,13 @@ class Movie(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments')
+    name = models.CharField(max_length=100)
+    text = models.TextField()
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name}: {self.text}'

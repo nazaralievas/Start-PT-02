@@ -10,10 +10,12 @@
 </head>
 
 <nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand">Navbar</a>
-  <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  <a href="/" class="navbar-brand">Все фильмы</a>
+  <div class="navbar-nav mr-auto">
+    <a class="nav-item nav-link" href="/rules">Правила сайта</a></div>
+  <form method="GET" action="{% url 'movie_list' %}" class="form-inline">
+    <input name="q" class="form-control mr-sm-2" type="search" placeholder="Введите название фильма..." aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
   </form>
 </nav>
 
