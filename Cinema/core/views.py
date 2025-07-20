@@ -16,11 +16,12 @@ def movie_list(request):
 def movie_detail(request, id):
     form = CommentForm()
     movie = Movie.objects.get(id=id)
-    
+
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            comment.user = request.user
             comment.movie = movie
             comment.save()
             return redirect('movie_detail', id=movie.id)
@@ -29,3 +30,14 @@ def movie_detail(request, id):
 
 def rules(request):
     return render(request, 'core/rules.html')
+
+
+# ------ login, registration, logout ---------
+from django.contrib.auth.forms import AuthenticationForm
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('movie_list')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'core/login.html', {'form': form})

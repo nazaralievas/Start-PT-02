@@ -8,18 +8,23 @@
     <img src="{{ movie.poster }}">
 </ul>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Отправить">
-</form>
+{% if user.is_authenticated %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Отправить">
+    </form>
+{% else %}
+    <h3>Зарегистрируйтесь</h3>
+    <h3>Или войдите в аккаунт</h3>
+{% endif %}
 
 {% if movie.comments.all|length < 1 %}
     <h4>Комментариев пока нет. Будьте первым!</h4>
 {% else %}
     {% for comment in movie.comments.all %}
         <ul>
-            <li>{{ comment.name }} : {{ comment.text }} <small>{{ comment.date_created }}</small></li>
+            <li>{{ comment.user.username }} : {{ comment.text }} <small>{{ comment.date_created }}</small></li>
         </ul>
     {% endfor %}
 {% endif %}
