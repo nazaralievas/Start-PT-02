@@ -1,11 +1,10 @@
 {% extends 'core/base.html' %}
-
 {% block content %}
 
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button>Войти</button>
+    <button>Зарегистрироваться</button>
 </form>
 
 {% endblock content %}

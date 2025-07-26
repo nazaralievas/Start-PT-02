@@ -33,11 +33,37 @@ def rules(request):
 
 
 # ------ login, registration, logout ---------
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib import auth
 
 def login(request):
     if request.user.is_authenticated:
         return redirect('movie_list')
     else:
+        if request.method == 'POST':
+            form = AuthenticationForm(request, request.POST)
+            if form.is_valid():
+                user = form.get_user()
+                auth.login(request, user)
+                return redirect('movie_list')
         form = AuthenticationForm()
     return render(request, 'core/login.html', {'form': form})
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect('movie_list')
+
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('movie_list')
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+
+    form = UserCreationForm()
+    return render(request, 'core/register.html', {'form': form})
