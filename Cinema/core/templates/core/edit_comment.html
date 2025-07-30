@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h3>Страница редактирования комментария</h3>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button>Сохранить</button>
+</form>
+
+{% endblock content %}

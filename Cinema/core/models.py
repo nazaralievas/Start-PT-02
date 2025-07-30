@@ -22,5 +22,9 @@ class Comment(models.Model):
     text = models.TextField()
     date_created = models.DateField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = 'Комментарии'
+        ordering = ['-date_created']
+
     def __str__(self):
         return f'{self.user.username}: {self.text}'

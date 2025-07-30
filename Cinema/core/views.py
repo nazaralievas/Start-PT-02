@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from .models import Movie
+from django.http import HttpResponseForbidden
+from .models import Movie, Comment
 from .forms import CommentForm
+
 
 
 def movie_list(request):
@@ -67,3 +69,20 @@ def register(request):
 
     form = UserCreationForm()
     return render(request, 'core/register.html', {'form': form})
+
+
+def edit_comment(request, id):
+    comment = Comment.objects.get(id=id)
+    
+    if comment.user != request.user:
+        return HttpResponseForbidden('Вы не можете реадктировать этот комментарий!')
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('movie_detail', id=comment.movie.id)
+
+    form = CommentForm(instance=comment)
+    return render(request, 'core/edit_comment.html',
+                  {'comment': comment, 'form': form})
