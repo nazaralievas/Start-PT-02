@@ -1,32 +1,65 @@
 {% extends 'core/base.html' %}
+
 {% block content %}
+<div class="container mt-4">
+    <!-- Карточка фильма -->
+    <div class="card mb-4 shadow-sm">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ movie.poster }}" class="card-img" alt="{{ movie.name }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title">{{ movie.name }}</h3>
+                    <p class="card-text"><strong>Жанр:</strong> {{ movie.genre }}</p>
+                    <p class="card-text"><strong>Описание:</strong><br>{{ movie.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<ul>
-    <li>Назавание фильма: {{ movie.name }}</li>
-    <li>Жанр: {{ movie.genre }}</li>
-    <li>Описание фильма: {{ movie.description }}</li>
-    <img src="{{ movie.poster }}">
-</ul>
+    <!-- Форма комментария -->
+    {% if user.is_authenticated %}
+    <div class="card mb-4">
+        <div class="card-header">Оставьте комментарий</div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        <h5><a href="/register" class="alert-link" target="_blank">Зарегистрируйтесь</a> или <a href="/login" class="alert-link" target="_blank">войдите</a>, чтобы оставить комментарий.</h5>
+    </div>
+    {% endif %}
 
-{% if user.is_authenticated %}
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Отправить">
-    </form>
-{% else %}
-    <h3><a target="_blank" href="/register">Зарегистрируйтесь</a></h3>
-    <h3>Или <a href="/login">войдите</a> в аккаунт</h3>
-{% endif %}
-
-{% if movie.comments.all|length < 1 %}
-    <h4>Комментариев пока нет. Будьте первым!</h4>
-{% else %}
-    {% for comment in movie.comments.all %}
-        <ul>
-            <li>{{ comment.user.username }} : {{ comment.text }} <small>{{ comment.date_created }}</small></li>
-        </ul>
-    {% endfor %}
-{% endif %}
-
+    <!-- Комментарии -->
+    {% if movie.comments.all|length < 1 %}
+    <div class="alert alert-warning" role="alert">
+        Комментариев пока нет. Будьте первым!
+    </div>
+    {% else %}
+    <div class="comments-list">
+        <h4 class="mb-3">Комментарии ({{ movie.comments.count }})</h4>
+        {% for comment in movie.comments.all %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <p class="mb-1"><strong>{{ comment.user.username }}</strong>:</p>
+                <p class="mb-2">{{ comment.text }}</p>
+                <small class="text-muted">{{ comment.date_created }}</small>
+                {% if user == comment.user %}
+                <div class="mt-2">
+                    <a href="{% url 'edit_comment' comment.id %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                    <a href="{% url 'delete_comment' comment.id %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
 {% endblock content %}

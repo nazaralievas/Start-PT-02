@@ -9,4 +9,5 @@ urlpatterns = [
     path('logout/', logout, name='logout'),
     path('register/', register, name='register'),
     path('edit_comment/<int:id>/', edit_comment, name='edit_comment'),
+    path('delete_comment/<int:id>/', delete_comment, name='delete_comment'),
 ]

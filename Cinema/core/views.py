@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponseForbidden
 from .models import Movie, Comment
 from .forms import CommentForm
@@ -75,7 +76,7 @@ def edit_comment(request, id):
     comment = Comment.objects.get(id=id)
     
     if comment.user != request.user:
-        return HttpResponseForbidden('Вы не можете реадктировать этот комментарий!')
+        return HttpResponseForbidden('Вы не можете редактировать этот комментарий!')
 
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
@@ -86,3 +87,16 @@ def edit_comment(request, id):
     form = CommentForm(instance=comment)
     return render(request, 'core/edit_comment.html',
                   {'comment': comment, 'form': form})
+
+
+def delete_comment(request, id):
+    comment = get_object_or_404(Comment, id=id)
+
+    if comment.user != request.user:
+        return HttpResponseForbidden('Вы не можете удалить этот комментарий!')
+
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('movie_detail', id=comment.movie.id)
+
+    return render(request, 'core/delete_comment.html', {'comment': comment})

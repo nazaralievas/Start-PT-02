@@ -27,4 +27,4 @@ class Comment(models.Model):
         ordering = ['-date_created']
 
     def __str__(self):
-        return f'{self.user.username}: {self.text}'
+        return f'{self.id}) {self.user.username}: {self.text}'
