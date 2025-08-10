@@ -10,4 +10,6 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('edit_comment/<int:id>/', edit_comment, name='edit_comment'),
     path('delete_comment/<int:id>/', delete_comment, name='delete_comment'),
+    path('random_dog/', random_dog, name="random_dog"),
+    path('user_profile/<int:id>/', user_profile, name="user_profile"),
 ]

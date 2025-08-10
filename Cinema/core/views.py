@@ -100,3 +100,18 @@ def delete_comment(request, id):
         return redirect('movie_detail', id=comment.movie.id)
 
     return render(request, 'core/delete_comment.html', {'comment': comment})
+
+# pip install requests
+import requests
+def random_dog(request):
+    url = "https://dog.ceo/api/breeds/image/random"
+    response = requests.get(url)
+    dog_image_url = response.json().get("message")
+    return render(request, 'core/random_dog.html', {'dog_image_url': dog_image_url})
+
+
+from django.contrib.auth.models import User
+
+def user_profile(request, id):
+    profile_user = User.objects.get(id=id)
+    return render(request, 'core/user_profile.html', {'profile_user': profile_user})

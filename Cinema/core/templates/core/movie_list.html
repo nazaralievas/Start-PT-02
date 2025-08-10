@@ -6,7 +6,7 @@
         <div class="col-lg-4">
             <a href="/movie_detail/{{ movie.id }}"><h4>{{ movie.name }}</h4></a>
             <h5>Жанр: {{ movie.genre }}</h5>
-            <a href="/movie_detail/{{ movie.id }}"><img src="{{ movie.poster }}"></a>
+            <a href="/movie_detail/{{ movie.id }}"><img src="{{ movie.poster.url }}"></a>
         </div>
     {% endfor %}
 </div>
